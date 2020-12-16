@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List | Project</title>
+    <!--Fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <!--Style-->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!--Main section-->
+    <section class="sec-center">
+        <!--form-->
+        <form class="do-form">
+            <p class="alert"></p>
+            <h3>to do list</h3>
+            <div class="form-control">
+                <input type="text" id="do" placeholder="e.g. learn">
+                <button type="submit" class="submit-btn">
+                    submit
+                </button>
+            </div>
+        </form>
+        <!--list-->
+        <div class="do-container">
+            <div class="do-list">
+                <article class="do-item">
+                    <p class="title">item</p>
+                    <!--btns side-->
+                    <div class="btn-container">
+                        <!--eidt btn-->
+                        <button type="button" class="edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <!--remove btn-->
+                        <button type="button" class="remove-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </article>
+            </div>
+            <!--clear button-->
+            <button type="button" class="clear-btn">clear list</button>
+        </div>
+    </section>
+    <!--Javascript-->
+    <script src="app.js"></script>
+</body>
+</html>
