@@ -22,7 +22,9 @@ body {
 
 h3 {
     font-size: 2rem;
+    margin: .5rem 0 3rem 0;
     text-transform: capitalize;
+    padding-top: 1rem;
     letter-spacing: .5rem;
     color: #fff;
 }
@@ -52,6 +54,28 @@ button {
     cursor: pointer;
     background-color: none;
 }
+
+/* alret style */
+.alert {
+    display: inline;
+    margin: 0 auto;
+    padding: .3rem 5rem;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+/* danger */
+.danger {
+    background-color: lightcoral;
+    color: #951111;
+}
+/* seccuse */
+.seccuse {
+    background-color: rgb(67, 185, 112);
+    color: #fff;
+}
+/*****************/
+
 .submit-btn {
     position: absolute;
     right: 0;
@@ -76,6 +100,10 @@ button {
     width: 300px;
     margin: 1rem auto 0 auto;
     padding: 1rem 0;
+    visibility: hidden;
+}
+.show-do-container {
+    visibility: visible;
 }
 .do-list {
     padding-bottom: 1rem;
