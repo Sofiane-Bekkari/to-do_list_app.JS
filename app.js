@@ -3,10 +3,10 @@ const alert = document.querySelector('.alert');
 const form = document.querySelector('.do-form');
 const doValue = document.getElementById('do');
 //console.log(doValue.value);
-const submitBtn = document.querySelector('submit-btn');
-const container = document.querySelector('do-container');
-const list = document.querySelector('do-list');
-const clearBtn = document.querySelector('clear-btn');
+const submitBtn = document.querySelector('.submit-btn');
+const container = document.querySelector('.do-container');
+const list = document.querySelector('.do-list');
+const clearBtn = document.querySelector('.clear-btn');
 
 
 // EDIT OPTION
@@ -20,6 +20,9 @@ let editID = "";
 // ***** SUBMIT FORM *****
 form.addEventListener("submit", addItem);
 
+// clear items
+clearBtn.addEventListener('click', clearItems);
+
 // ***** FUNCTIONS ******
 function addItem(e) {
     e.preventDefault();
@@ -29,7 +32,41 @@ function addItem(e) {
 
     // check if there value or editing
     if ( value !== '' && editFlag === false){
-        console.log("add item to a list");
+        //*** ADD ITEM ***//
+        const element = document.createElement('article');
+        // add class
+        element.classList.add('do-item');
+        // add id
+        const attr = document.createAttribute('data-id');
+        attr.value = id; 
+        element.setAttributeNode(attr);
+        element.innerHTML = `<p class="title">${value}</p>
+        <!--btns side-->
+        <div class="btn-container">
+            <!--eidt btn-->
+            <button type="button" class="edit-btn">
+                <i class="fas fa-edit"></i>
+            </button>
+            <!--remove btn-->
+            <button type="button" class="remove-btn">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>`
+        // btn edit & delete
+        const deleteBtn = element.querySelector('.remove-btn');
+        const editBtn = element.querySelector('.edit-btn');
+        deleteBtn.addEventListener('click', deleteItem );
+        editBtn.addEventListener('click', editItem );
+        // append child
+        list.appendChild(element);
+        // show container 
+        container.classList.add('show-do-container');
+        // add alert
+        displayAlert('added to the list', "success");
+        // add to local storage
+        addToLocalStorage(id, value);
+        // set back to default 
+        setBackToDefault();
     }
     else if ( value !== '' && editFlag === true){
         console.log("editing");
@@ -53,11 +90,50 @@ function displayAlert(text, action){
     }, 1000);
 }
 
+// clear item 
+function clearItems(){
+    const items = document.querySelectorAll('.do-item');
+    
+    if (items.length > 0) {
+        items.forEach(function(item){
+            list.removeChild(item);
+        });
+    }
+    container.classList.remove('show-do-container');
+    displayAlert('list is clear', 'danger');
+    setBackToDefault();
+    //localStorage.removeItem('list');
+};
 
+// delete function
+function deleteItem(e){
+    const element = e.currentTarget.parentElement.parentElement;
+    //console.log('PARENT:', element);
+    list.removeChild(element);
 
+    if (list.children.length === 0){
+        container.classList.remove('show-do-container');
+    }
 
+    displayAlert('delete item', 'danger');
+    setBackToDefault();
+};
+// edit function
+function editItem(e){
+    console.log('CURRENT:', e.currentTarget);
+   
+};
 
+// set back to default
+function setBackToDefault(){
+   doValue.value = "";
+   editFlag = false;
+   editID = "";
+   submitBtn.textContent = "submit";
+};
 // ***** LOCAL STORGE *****
-
+function addToLocalStorage(){
+    console.log('Add to local storage');
+};
 
 // ***** SETUP ITEMS *****
