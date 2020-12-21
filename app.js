@@ -69,7 +69,11 @@ function addItem(e) {
         setBackToDefault();
     }
     else if ( value !== '' && editFlag === true){
-        console.log("editing");
+       editElement.innerHTML = value;
+       displayAlert('change item', 'success');
+       // edit on local storage
+       //editlocalStorage(editID, value);
+       setBackToDefault();
     }
     else {
         displayAlert('please enter value', "danger");
@@ -108,7 +112,8 @@ function clearItems(){
 // delete function
 function deleteItem(e){
     const element = e.currentTarget.parentElement.parentElement;
-    //console.log('PARENT:', element);
+    const id = element.dataset.id;
+    console.log(id);
     list.removeChild(element);
 
     if (list.children.length === 0){
@@ -117,11 +122,20 @@ function deleteItem(e){
 
     displayAlert('delete item', 'danger');
     setBackToDefault();
+    // remove form local storage
+    removeFromLocalStorage();
 };
 // edit function
 function editItem(e){
-    console.log('CURRENT:', e.currentTarget);
-   
+    const element = e.currentTarget.parentElement.parentElement;
+    // set edit item
+    editElement = e.currentTarget.parentElement.previousElementSibling;
+    console.log(editElement);
+    // set form value
+    doValue.value = editElement.innerHTML
+   editFlag = true;
+   editID = element.dataset.id;
+   submitBtn.textContent = "edit"
 };
 
 // set back to default
@@ -133,7 +147,9 @@ function setBackToDefault(){
 };
 // ***** LOCAL STORGE *****
 function addToLocalStorage(){
-    console.log('Add to local storage');
+    //console.log('Add to local storage');
 };
+function removeFromLocalStorage(id){};
+function editLocalStorage(id, value){};
 
-// ***** SETUP ITEMS *****
+// ****** SETUP ITEMS *******
