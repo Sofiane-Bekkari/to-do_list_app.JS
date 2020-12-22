@@ -17,15 +17,19 @@ let editID = "";
 
 // ***** EVENT LISTENERS *****
 
-// ***** SUBMIT FORM *****
+// submit form 
 form.addEventListener("submit", addItem);
 
 // clear items
 clearBtn.addEventListener('click', clearItems);
 
+// content loaded
+window.addEventListener('DOMContentLoaded', setupContent());
+
 // ***** FUNCTIONS ******
 function addItem(e) {
     e.preventDefault();
+
     const value = doValue.value;
     // come up with unique ID
     const id = new Date().getTime().toString();
@@ -33,32 +37,7 @@ function addItem(e) {
     // check if there value or editing
     if ( value !== '' && editFlag === false){
         //*** ADD ITEM ***//
-        const element = document.createElement('article');
-        // add class
-        element.classList.add('do-item');
-        // add id
-        const attr = document.createAttribute('data-id');
-        attr.value = id; 
-        element.setAttributeNode(attr);
-        element.innerHTML = `<p class="title">${value}</p>
-        <!--btns side-->
-        <div class="btn-container">
-            <!--eidt btn-->
-            <button type="button" class="edit-btn">
-                <i class="fas fa-edit"></i>
-            </button>
-            <!--remove btn-->
-            <button type="button" class="remove-btn">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>`
-        // btn edit & delete
-        const deleteBtn = element.querySelector('.remove-btn');
-        const editBtn = element.querySelector('.edit-btn');
-        deleteBtn.addEventListener('click', deleteItem );
-        editBtn.addEventListener('click', editItem );
-        // append child
-        list.appendChild(element);
+        createListElement(id,value);
         // show container 
         container.classList.add('show-do-container');
         // add alert
@@ -199,4 +178,47 @@ function setToLocalStorage(items){
 //console.log(price);
 //localStorage.removeItem('price');
 
-// ****** SETUP ITEMS *******
+// ****** SETUP ITEMS ******* //
+function setupContent(){
+    items = getLocalStorage();
+
+    if (items.length > 0){
+        items.forEach(function(item){
+            createListElement(item.id, item.value);
+        })
+
+        container.classList.add('show-do-container');
+    }
+};
+
+// create element
+function createListElement(id, value){
+      //*** ADD ITEM ***//
+      const element = document.createElement('article');
+      // add class
+      element.classList.add('do-item');
+      // add id
+      const attr = document.createAttribute('data-id');
+      attr.value = id; 
+      element.setAttributeNode(attr);
+      // add it dynamic
+      element.innerHTML = `<p class="title">${value}</p>
+      <!--btns side-->
+      <div class="btn-container">
+          <!--eidt btn-->
+          <button type="button" class="edit-btn">
+              <i class="fas fa-edit"></i>
+          </button>
+          <!--remove btn-->
+          <button type="button" class="remove-btn">
+              <i class="fas fa-trash"></i>
+          </button>
+      </div>`
+      // btn edit & delete
+      const deleteBtn = element.querySelector('.remove-btn');
+      const editBtn = element.querySelector('.edit-btn');
+      deleteBtn.addEventListener('click', deleteItem );
+      editBtn.addEventListener('click', editItem );
+      // append child
+      list.appendChild(element);
+};
