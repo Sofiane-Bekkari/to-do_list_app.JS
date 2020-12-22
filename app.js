@@ -70,9 +70,9 @@ function addItem(e) {
     }
     else if ( value !== '' && editFlag === true){
        editElement.innerHTML = value;
-       displayAlert('change item', 'success');
        // edit on local storage
-       //editlocalStorage(editID, value);
+       displayAlert('change item', 'success');
+       editLocalStorage(editID, value);
        setBackToDefault();
     }
     else {
@@ -91,7 +91,7 @@ function displayAlert(text, action){
     setTimeout(function (){
         alert.textContent = "";
         alert.classList.remove(action);
-    }, 1000);
+    }, 2000);
 }
 
 // clear item 
@@ -106,7 +106,7 @@ function clearItems(){
     container.classList.remove('show-do-container');
     displayAlert('list is clear', 'danger');
     setBackToDefault();
-    //localStorage.removeItem('list');
+    localStorage.removeItem('list');
 };
 
 // delete function
@@ -123,7 +123,7 @@ function deleteItem(e){
     displayAlert('delete item', 'danger');
     setBackToDefault();
     // remove form local storage
-    removeFromLocalStorage();
+    removeFromLocalStorage(id);
 };
 // edit function
 function editItem(e){
@@ -133,9 +133,9 @@ function editItem(e){
     console.log(editElement);
     // set form value
     doValue.value = editElement.innerHTML
-   editFlag = true;
-   editID = element.dataset.id;
-   submitBtn.textContent = "edit"
+    editFlag = true;
+    editID = element.dataset.id;
+    submitBtn.textContent = "edit"
 };
 
 // set back to default
@@ -146,10 +146,57 @@ function setBackToDefault(){
    submitBtn.textContent = "submit";
 };
 // ***** LOCAL STORGE *****
-function addToLocalStorage(){
-    //console.log('Add to local storage');
+function addToLocalStorage(id, value){
+    const doAdd = {id: id, value: value,};
+    let items = getLocalStorage();
+    console.log(items);
+    items.push(doAdd);
+    console.log(items);
+    // add to localStorage
+    setToLocalStorage(items);
+    //localStorage.setItem('list', JSON.stringify(items));
 };
-function removeFromLocalStorage(id){};
-function editLocalStorage(id, value){};
+function removeFromLocalStorage(id){
+    let items = getLocalStorage();
+
+    items = items.filter(function (item){
+        if (item.id !== id) {
+            //console.log(item);
+            return item;
+        }
+        //console.log('deleted>>', item);
+    });
+    setToLocalStorage(items);
+};
+function editLocalStorage(id, value){
+    let items = getLocalStorage();
+
+        console.log(items);
+        items = items.filter(function(item){
+            if(item.id === id){
+                item.value = value;
+            }
+            return item;
+        })
+    setToLocalStorage(items);
+};
+function getLocalStorage(){
+
+    return localStorage.getItem('list')?JSON.parse(localStorage.getItem('list')): [];
+};
+// set to localStorage
+function setToLocalStorage(items){
+    localStorage.setItem('list', JSON.stringify(items));
+};
+// localStorage API
+// setItem
+// getItem
+// removeItem
+// save as strings
+
+//localStorage.setItem("price", JSON.stringify(['$12', '$15']));
+//const price = JSON.parse(localStorage.getItem('price'));
+//console.log(price);
+//localStorage.removeItem('price');
 
 // ****** SETUP ITEMS *******
