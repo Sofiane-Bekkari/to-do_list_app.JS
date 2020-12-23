@@ -2,7 +2,6 @@
 const alert = document.querySelector('.alert');
 const form = document.querySelector('.do-form');
 const doValue = document.getElementById('do');
-//console.log(doValue.value);
 const submitBtn = document.querySelector('.submit-btn');
 const container = document.querySelector('.do-container');
 const list = document.querySelector('.do-list');
@@ -92,7 +91,6 @@ function clearItems(){
 function deleteItem(e){
     const element = e.currentTarget.parentElement.parentElement;
     const id = element.dataset.id;
-    console.log(id);
     list.removeChild(element);
 
     if (list.children.length === 0){
@@ -109,7 +107,7 @@ function editItem(e){
     const element = e.currentTarget.parentElement.parentElement;
     // set edit item
     editElement = e.currentTarget.parentElement.previousElementSibling;
-    console.log(editElement);
+    
     // set form value
     doValue.value = editElement.innerHTML
     editFlag = true;
@@ -128,10 +126,9 @@ function setBackToDefault(){
 function addToLocalStorage(id, value){
     const doAdd = {id: id, value: value,};
     let items = getLocalStorage();
-    console.log(items);
+  
     items.push(doAdd);
-    console.log(items);
-    // add to localStorage
+    // *add to localStorage* //
     setToLocalStorage(items);
     //localStorage.setItem('list', JSON.stringify(items));
 };
@@ -150,7 +147,6 @@ function removeFromLocalStorage(id){
 function editLocalStorage(id, value){
     let items = getLocalStorage();
 
-        console.log(items);
         items = items.filter(function(item){
             if(item.id === id){
                 item.value = value;
@@ -163,7 +159,7 @@ function getLocalStorage(){
 
     return localStorage.getItem('list')?JSON.parse(localStorage.getItem('list')): [];
 };
-// set to localStorage
+// *set to localStorage* //
 function setToLocalStorage(items){
     localStorage.setItem('list', JSON.stringify(items));
 };
